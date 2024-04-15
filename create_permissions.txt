@@ -84,3 +84,87 @@ sudo chgrp SantanaGroup /home/hajirasultana/huda/eehabkar/Santana-*
 
 
 # total correct points = 264
+# ...................................................
+sudo chmod ugo-rwx *.txt
+bash init.sh
+
+# Create groups for each attorney's team
+sudo groupadd JonesGroup
+sudo groupadd SantanaGroup
+sudo groupadd JohnsonGroup
+
+# Assign users to their respective groups
+sudo usermod -a -G JonesGroup bard
+sudo usermod -a -G JonesGroup sam
+sudo usermod -a -G JonesGroup mary
+sudo usermod -a -G JonesGroup bob
+
+sudo usermod -a -G SantanaGroup bard
+sudo usermod -a -G SantanaGroup sam
+sudo usermod -a -G SantanaGroup mary
+sudo usermod -a -G SantanaGroup bob
+
+sudo usermod -a -G JohnsonGroup karen
+sudo usermod -a -G JohnsonGroup kevin
+sudo usermod -a -G JohnsonGroup tom
+sudo usermod -a -G JohnsonGroup becky
+
+# Set ownership of the files according to attorney supervising each case
+sudo chown :JonesGroup Jones-*
+sudo chown :SantanaGroup Santana-*
+sudo chown :JohnsonGroup Johnson-*
+
+#Score: 90
+
+#------------------------------------------
+
+# All personnel can read all client documents.
+#Only personnel assigned to a matter for a client can write to client documents for that matter.
+
+sudo chmod 664 *Pleading* *Contract*
+
+#Score:  162
+
+#------------------------------------------
+
+#All personnel can read all calendar entries but the only person who can modify a calendar entry is the person who created it.
+
+
+sudo chmod 644 *Court* *Meeting*
+
+#Score: 216
+
+#------------------------------------------
+
+#Attorneys and law clerks can read and write billings on every case.
+
+sudo groupadd AttAndLaw 
+sudo usermod -a -G AttAndLaw bard
+sudo usermod -a -G AttAndLaw karen
+sudo usermod -a -G AttAndLaw sam
+sudo usermod -a -G AttAndLaw kevin
+sudo chgrp AttAndLaw *Bill*
+sudo chmod 660 *Bill*
+
+
+# Score: 264
+
+# If using ACL , first sudo install acl, sudo acl update upgrade and run these commands
+#------------------------------------------
+
+#Paralegals and administrative assistants can read and write billings only on cases assigned to their supervising attorney.
+
+sudo setfacl -m u:mary:rw Jones-Bill1.txt Jones-Bill2.txt
+sudo setfacl -m u:bob:rw Jones-Bill1.txt Jones-Bill2.txt
+sudo setfacl -m u:mary:rw Santana-Bill1.txt Santana-Bill2.txt
+sudo setfacl -m u:bob:rw Santana-Bill1.txt Santana-Bill2.txt
+
+sudo setfacl -m u:tom:rw Johnson-Bill1.txt Johnson-Bill2.txt
+sudo setfacl -m u:becky:rw Johnson-Bill1.txt Johnson-Bill2.txt
+
+#Score : 288
+
+#------------------------------------------
+
+
+
